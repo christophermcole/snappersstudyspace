@@ -40,6 +40,7 @@ const Taskbar = styled.nav`
   height: 20px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  z-index: 1000;
 
   &.expanded {
     height: 80px;

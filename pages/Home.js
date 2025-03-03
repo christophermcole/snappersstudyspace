@@ -2,26 +2,55 @@
 
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Image from "next/image";
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Ensures no scrolling */
+    background-color: #32643F; /* Matches your background */
+  }
+`;
 
 const Home = () => {
   return (
     <Section>
-      <Container>
-        <StopwatchContainer>
-          <h2>Stopwatch</h2>
-          <Stopwatch />
-        </StopwatchContainer>
-        
-        <WelcomeMessage>
-          <Header>Welcome to Snapper’s Study Space!</Header>
-          <SubHeader>Stay focused and make the most of your study time.</SubHeader>
-        </WelcomeMessage>
-        
-        <TimerContainer>
-          <h2>Timer</h2>
-          <Timer />
-        </TimerContainer>
-      </Container>
+      <VerticalContainer>
+        <WelcomeContainer>
+          <WelcomeMessage>
+            <Header>Welcome to Snapper’s Study Space!</Header>
+            <SubHeader>Stay focused and make the most of your study time.</SubHeader>
+          </WelcomeMessage>
+        </WelcomeContainer>
+        <Container>
+          <TitleContainer>
+            <h2>Stopwatch</h2>
+            <StopwatchContainer>
+              <Stopwatch />
+            </StopwatchContainer>
+          </TitleContainer>
+
+          <div>
+          <Image src="/SnapperStudying.png" alt="SnapperStudying" width={500} height={500} style={{ maxWidth: "100%", height: "auto", display: "block" }} />
+          </div>
+
+          <TitleContainer>
+            <h2>Pomodoro Timer</h2>
+            <TimerContainer>
+              <Timer />
+            </TimerContainer>
+          </TitleContainer>
+        </Container>
+        <Text>The Pomodoro Technique involves working for 25 minutes, followed by a 5-minute break, with a longer break after four cycles. Give it a try!</Text>
+      </VerticalContainer>
     </Section>
   );
 };
@@ -81,27 +110,96 @@ const Section = styled.section`
   background: #32643F;
   border: 15px solid #1E2F23;
   border-radius: 35px;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #F9ECCC;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  box-sizing: border-box;
 `;
+
+
+
+const VerticalContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw; 
+  height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+`;
+
+
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
   align-items: center;
-  width: 80%;
-  max-width: 900px;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  max-width: 100vw;
+  gap: 50px;
+  flex-wrap: wrap; 
+  overflow: hidden;
+  box-sizing: border-box;
+`;
+
+
+
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 20px;
+  max-width: 250px;
 `;
 
 const StopwatchContainer = styled.div`
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #32643F;
+  border: 15px solid #1E2F23;
+  border-radius: 35px;
+  width: 100%;
+  height: 20vh;
+  color: #F9ECCC;
 `;
 
 const TimerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #32643F;
+  border: 15px solid #1E2F23;
+  border-radius: 35px;
+  width: 100%;
+  height: 20vh;
+  color: #F9ECCC;
+`;
+
+const WelcomeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+`;
+
+const Text = styled.p`
+  font-size: 1rem;
+  color: #F9ECCC;
+  line-height: 1.5;
+  max-width: 500px;
   text-align: center;
 `;
 
@@ -139,6 +237,7 @@ const ButtonRow = styled.div`
 
 const CTAButton = styled.button`
   padding: 10px 20px;
+  width: 100px;
   font-size: 1.2rem;
   background-color: #1E2F23;
   color: white;

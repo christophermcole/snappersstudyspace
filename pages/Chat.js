@@ -44,14 +44,14 @@ const ChatWithSnaps = () => {
 };
 
 const PageContainer = styled.div`
-  background: linear-gradient(to bottom right, #0b3d02, #1a5e20);
+  background: #32643f;
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: #f9eccc;
   padding: 20px;
   position: relative;
 `;
