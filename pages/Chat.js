@@ -1,20 +1,46 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002"; // Ensure correct API endpoint
 
 const ChatWithSnaps = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    { sender: "snaps", text: "Hi! I'm Snapper, and I'm here to assist you with all of your studying needs. How can I help you?" }
+  ]);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSendMessage = async () => {
     if (input.trim() === "") return;
-    
-    const userMessage = { sender: "user", text: input };
-    setMessages([...messages, userMessage]);
-    setInput("");
 
-    // Simulating Snaps' response (Replace with actual API call to OpenAI ChatGPT)
-    const snapsResponse = { sender: "snaps", text: "Thinking..." };
-    setMessages([...messages, userMessage, snapsResponse]);
+    const userMessage = { sender: "user", text: input };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${API_URL}/Chat`, { // Fixed endpoint (lowercase)
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const botMessage = { sender: "snaps", text: data.response };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+    } catch (error) {
+      console.error("Error:", error);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: "snaps", text: "Error fetching response. Please try again." },
+      ]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,7 +61,9 @@ const ChatWithSnaps = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
-          <SendButton onClick={handleSendMessage}>Send</SendButton>
+          <SendButton onClick={handleSendMessage} disabled={loading}>
+            {loading ? "Thinking..." : "Send"}
+          </SendButton>
         </InputContainer>
       </ChatContainer>
       <GraphicPlaceholder>Custom Graphic Here</GraphicPlaceholder>
@@ -119,6 +147,10 @@ const SendButton = styled.button`
   transition: background 0.3s ease;
   &:hover {
     background-color: #3cb371;
+  }
+  &:disabled {
+    background-color: gray;
+    cursor: not-allowed;
   }
 `;
 

@@ -103,7 +103,7 @@ const CTAButton = styled.button`
   padding: 10px 20px;
   font-size: 1.2rem;
   background-color: #1E2F23;
-  color: white;
+  color: #F9ECCC;
   border: none;
   border-radius: 8px;
   cursor: pointer;

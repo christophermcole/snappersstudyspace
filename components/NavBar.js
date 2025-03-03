@@ -70,7 +70,7 @@ const NavLinks = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  color: white;
+  color: #F9ECCC;
   text-decoration: none;
   padding: 10px 15px;
   transition: background 0.3s ease-in-out;

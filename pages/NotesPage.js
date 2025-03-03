@@ -78,6 +78,7 @@ const InputContainer = styled.div`
   position: sticky;
   top: 0;
   z-index: 10;
+  padding-top: 80px;
   padding-bottom: 15px;
 `;
 
@@ -100,14 +101,14 @@ const NoteInput = styled.input`
 const AddButton = styled.button`
   padding: 10px 15px;
   font-size: 1.2rem;
-  background-color: #8fbc8f;
-  color: #1e2f23;
+  background-color: #1e2f23;
+  color: #f9eccc;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease;
   &:hover {
-    background-color: #6b8e23;
+    background-color:rgb(18, 28, 21);
   }
 `;
 

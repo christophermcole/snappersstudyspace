@@ -170,7 +170,7 @@ const StopwatchContainer = styled.div`
   background: #32643F;
   border: 15px solid #1E2F23;
   border-radius: 35px;
-  width: 100%;
+  width: 300px;
   height: 20vh;
   color: #F9ECCC;
 `;
@@ -182,7 +182,7 @@ const TimerContainer = styled.div`
   background: #32643F;
   border: 15px solid #1E2F23;
   border-radius: 35px;
-  width: 100%;
+  width: 300px;
   height: 20vh;
   color: #F9ECCC;
 `;

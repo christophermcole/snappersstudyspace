@@ -16,6 +16,8 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+require("dotenv").config({ path: ".env.local" });
+
 function MyApp({ Component, pageProps }) {
     return (
         <>
