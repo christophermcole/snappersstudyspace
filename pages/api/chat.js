@@ -1,4 +1,4 @@
-import chatWithGPT from "@/ChatGPT";
+import chatWithGPT from "@/library/ChatGPT";
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
