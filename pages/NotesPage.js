@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { saveNote, loadNotes, deleteNoteFromFirestore } from "../library/firebase"; // Adjust path if needed
+import { saveNote, loadNotes, deleteNoteFromFirestore } from "../library/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/router";  // For redirection to login page
-import withAuth from "@/components/withAuth";
-
+import withAuth from "@/components/withAuth"; // Also for redirection to login page
+// Note: there are two means for redirecting unauthenticated user here. This is redundant, but because everything is functional I am fearful of touching anything.
 
 const NotesPage = () => {
   const [notes, setNotes] = useState([]);
@@ -80,7 +80,6 @@ const NotesPage = () => {
   );
 };
 
-// Styled Components (updated with full-width note container)
 const PageContainer = styled.div`
   background: #32643f;
   width: 100%;
@@ -135,12 +134,11 @@ const AddButton = styled.button`
   }
 `;
 
-// Updated NotesContainer to span full width of the page
 const NotesContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  width: 100%;  /* Make container full width */
+  width: 100%; 
   margin-top: 20px;
   overflow-y: auto;
   flex-grow: 1;

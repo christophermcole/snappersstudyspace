@@ -17,8 +17,8 @@ const GlobalStyle = createGlobalStyle`
   html, body {
     width: 100%;
     height: 100%;
-    overflow: hidden; /* Ensures no scrolling */
-    background-color: #32643F; /* Matches your background */
+    overflow: hidden; 
+    background-color: #32643F; 
   }
 `;
 

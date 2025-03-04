@@ -49,7 +49,7 @@ const ChatWithSnaps = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/chat`, {
+      const response = await fetch(`${API_URL}/chat`, { // Note to self, in future have more distinct names. This gave me a hard time.
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),

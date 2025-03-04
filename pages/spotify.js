@@ -64,7 +64,7 @@ const SpotifyPage = () => {
             ) : (
                 <LoginContainer>
                     <SnapperImage>
-                        <Image 
+                        <Image //Add image for before login
                             src="/snappermusic.png" 
                             alt="Snapper Music" 
                             width={300} 
@@ -78,7 +78,6 @@ const SpotifyPage = () => {
     );
 };
 
-// Styled Components
 const Container = styled.div`
     display: flex;
     flex-direction: column;

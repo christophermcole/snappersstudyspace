@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const NavBar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-
+// Small logo "S" shows if taskbar not expanded
   return (
     <Taskbar
       onMouseEnter={() => setIsExpanded(true)}
@@ -24,7 +24,6 @@ const NavBar = () => {
   );
 };
 
-// Styled Components
 const Taskbar = styled.nav`
   background: #1E2F23;
   color: #F9ECCC;

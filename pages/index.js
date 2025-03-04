@@ -1,9 +1,9 @@
-"use client";
+"use client"; // Necessary because user interacts with this page
 
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { auth } from "../library/firebase";
-import GoogleAuth from "../components/GoogleAuth"; // Ensure correct import
+import GoogleAuth from "../components/GoogleAuth";
 
 const LandingPage = () => {
   const [user, setUser] = useState(null);

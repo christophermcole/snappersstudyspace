@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth, googleProvider } from "../library/firebase"; // Ensure this import is correct
+import { auth, googleProvider } from "../library/firebase"; 
 
 const GoogleAuth = ({ onSignIn = () => {} }) => { // Default function to prevent crashes
   useEffect(() => {

@@ -1,3 +1,5 @@
+// Not used anymore but I'm too scared to touch anything because it works right now.
+
 import { google } from "googleapis";
 
 export default async function handler(req, res) {
@@ -10,8 +12,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: "Unauthorized - No Token Provided" });
   }
 
-  const accessToken = authHeader.split(" ")[1]; // Extract token
-
+  const accessToken = authHeader.split(" ")[1];
   try {
     const auth = new google.auth.OAuth2();
     auth.setCredentials({ access_token: accessToken });
