@@ -1,6 +1,4 @@
-//Don't give public api keys
-
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
@@ -14,14 +12,11 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
-const app = initializeApp(firebaseConfig);
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 export const auth = getAuth(app);
 export const database = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.addScope("email");
-googleProvider.addScope("https://www.googleapis.com/auth/calendar.readonly");
-
-
 
 export default app;

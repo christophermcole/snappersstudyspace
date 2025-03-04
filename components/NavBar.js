@@ -17,7 +17,7 @@ const NavBar = () => {
       <NavLinks className={isExpanded ? "visible" : ""}>
         <StyledLink href="/Home">Home</StyledLink>
         <StyledLink href="/NotesPage">Notes</StyledLink>
-        <StyledLink href="/Calendar">Calendar</StyledLink>
+        <StyledLink href="/spotify">Spotify</StyledLink>
         <StyledLink href="/Chat">Chat</StyledLink>
         <StyledLink href="/Profile">Profile</StyledLink>
       </NavLinks>

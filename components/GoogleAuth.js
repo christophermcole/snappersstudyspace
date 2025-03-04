@@ -1,20 +1,24 @@
 import React, { useEffect } from "react";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth, googleProvider } from "../library/firebase"; // Ensure this import is correct
 
-const GoogleAuth = ({ onSignIn }) => {
+const GoogleAuth = ({ onSignIn = () => {} }) => { // Default function to prevent crashes
   useEffect(() => {
     const storedToken = localStorage.getItem("googleAccessToken");
     if (storedToken) {
       onSignIn(storedToken); // Auto-login if token exists
     }
-  }, []);
+  }, [onSignIn]); // Ensure useEffect runs when `onSignIn` changes
 
   const handleSignIn = async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider); // Ensure `auth` is defined
-      const credential = result.credential;
-      const token = credential.accessToken;
+      if (!auth || !googleProvider) {
+        throw new Error("Firebase authentication is not initialized.");
+      }
+
+      const result = await signInWithPopup(auth, googleProvider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
 
       if (!token) {
         throw new Error("No access token received.");
@@ -23,7 +27,7 @@ const GoogleAuth = ({ onSignIn }) => {
       localStorage.setItem("googleAccessToken", token);
       onSignIn(token);
     } catch (error) {
-      console.error("Sign-in error:", error);
+      console.error("Sign-in error:", error.message);
     }
   };
 
