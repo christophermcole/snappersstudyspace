@@ -1,25 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002"; // Ensure correct API endpoint
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002";
 
 const ChatWithSnaps = () => {
-  const [messages, setMessages] = useState([
-    { sender: "snaps", text: "Hi! I'm Snapper, and I'm here to assist you with all of your studying needs. How can I help you?" }
-  ]);
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = localStorage.getItem("chatHistory");
+    return savedMessages ? JSON.parse(savedMessages) : [
+      { sender: "Snapper", text: "Hi! I'm Snapper, your study assistant. How can I help you today?" }
+    ];
+  });
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [userTyping, setUserTyping] = useState(false);
+  const [chatStatus, setChatStatus] = useState("waiting"); // "waiting", "thinking", "talking"
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    localStorage.setItem("chatHistory", JSON.stringify(messages));
+  }, [messages]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleSendMessage = async () => {
     if (input.trim() === "") return;
 
+    setChatStatus("thinking"); // Snapper is thinking
+    setUserTyping(false);
+
     const userMessage = { sender: "user", text: input };
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setInput("");
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/Chat`, { // Fixed endpoint (lowercase)
+      const response = await fetch(`${API_URL}/Chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),
@@ -30,22 +48,39 @@ const ChatWithSnaps = () => {
       }
 
       const data = await response.json();
-      const botMessage = { sender: "snaps", text: data.response };
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      const botMessage = { sender: "Snapper", text: data.response };
+
+      setMessages([...updatedMessages, botMessage]);
+      setChatStatus("talking"); // Snapper is responding
     } catch (error) {
       console.error("Error:", error);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: "snaps", text: "Error fetching response. Please try again." },
-      ]);
+      setMessages([...updatedMessages, { sender: "Snapper", text: "Error fetching response. Please try again." }]);
+      setChatStatus("waiting");
     } finally {
       setLoading(false);
+      setTimeout(() => setChatStatus("waiting"), 2000); // Reset to waiting after Snapper finishes responding
+    }
+  };
+
+  const handleTyping = (e) => {
+    setInput(e.target.value);
+    setUserTyping(true);
+    setChatStatus("waiting"); // Snapper is waiting for user input
+  };
+
+  const getSnapperImage = () => {
+    switch (chatStatus) {
+      case "thinking":
+        return "/snapperthinking.png"; // GPT is processing
+      case "talking":
+        return "/snappertalking.png"; // GPT is responding
+      default:
+        return "/snapperwaiting.png"; // User is typing
     }
   };
 
   return (
     <PageContainer>
-      <Header>Chat with Snaps</Header>
       <ChatContainer>
         <MessagesContainer>
           {messages.map((msg, index) => (
@@ -53,20 +88,22 @@ const ChatWithSnaps = () => {
               {msg.text}
             </Message>
           ))}
+          <div ref={messagesEndRef} />
         </MessagesContainer>
         <InputContainer>
           <ChatInput
             type="text"
             placeholder="Talk to Snapper..."
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={handleTyping}
+            onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
           />
           <SendButton onClick={handleSendMessage} disabled={loading}>
             {loading ? "Thinking..." : "Send"}
           </SendButton>
         </InputContainer>
       </ChatContainer>
-      <GraphicPlaceholder>Custom Graphic Here</GraphicPlaceholder>
+      <SnapperImage src={getSnapperImage()} alt="Snapper Status" />
     </PageContainer>
   );
 };
@@ -76,77 +113,82 @@ const PageContainer = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #f9eccc;
   padding: 20px;
   position: relative;
 `;
 
-const Header = styled.h1`
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-`;
-
 const ChatContainer = styled.div`
-  width: 80%;
-  height: 60vh;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  width: 90%;
+  max-width: 900px;
+  height: 80vh;
+  background: #1E2F23;
+  border-radius: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
-  backdrop-filter: blur(10px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 15px;
 `;
 
 const MessagesContainer = styled.div`
   flex-grow: 1;
   overflow-y: auto;
-  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const Message = styled.div`
-  background-color: ${({ sender }) => (sender === "user" ? "#2e8b57" : "#8fbc8f")};
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  width: fit-content;
-  max-width: 80%;
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 1rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: ${({ sender }) => (sender === "user" ? "#32643f" : "rgb(57, 126, 62)")};
+  color:${({ sender }) => (sender === "user" ? "#F9ECCC" : "white")};
   align-self: ${({ sender }) => (sender === "user" ? "flex-end" : "flex-start")};
-  color: white;
+  border-bottom-left-radius: ${({ sender }) => (sender === "Snapper" ? "5px" : "18px")};
+  border-bottom-right-radius: ${({ sender }) => (sender === "user" ? "5px" : "18px")};
 `;
 
 const InputContainer = styled.div`
   display: flex;
   gap: 10px;
+  border-top: 1px solid #32643f;
+  padding: 10px;
+  background: #1E2F23;
 `;
 
 const ChatInput = styled.input`
   flex-grow: 1;
-  padding: 10px;
+  padding: 12px;
   font-size: 1rem;
-  border-radius: 5px;
-  border: none;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  border-radius: 10px;
+  border: 1px solid #3c5c47;
+  background: #3c5c47;
+  color: #F9ECCC;
+  outline: none;
   &::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.6);
   }
 `;
 
 const SendButton = styled.button`
-  padding: 10px 15px;
+  padding: 12px 18px;
   font-size: 1rem;
-  background-color: #2e8b57;
-  color: white;
+  background-color: #32643f;
+  color: #F9ECCC;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background 0.3s ease;
   &:hover {
-    background-color: #3cb371;
+    background-color:rgb(57, 126, 62);
   }
   &:disabled {
     background-color: gray;
@@ -154,19 +196,12 @@ const SendButton = styled.button`
   }
 `;
 
-const GraphicPlaceholder = styled.div`
+const SnapperImage = styled.img`
   position: absolute;
   bottom: 20px;
   left: 20px;
-  width: 150px;
-  height: 150px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 0.9rem;
+  width: 300px;
+  height: auto;
 `;
 
 export default ChatWithSnaps;
