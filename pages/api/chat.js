@@ -10,18 +10,17 @@ export default async function handler(req, res) {
         const userMessage = req.body.message;
 
         if (!userMessage) {
-            console.error("❌ Error: No message received in request.");
+            console.error("❌ Error: No message received.");
             return res.status(400).json({ error: "Message is required" });
         }
 
-        // Call the chat function
         const botResponse = await chatWithGPT(userMessage);
 
         console.log("✅ OpenAI Response:", botResponse);
         res.json({ response: botResponse });
 
     } catch (error) {
-        console.error("❌ Error processing response:", error);
-        res.status(500).json({ error: "Error processing response" });
+        console.error("❌ Server Error:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 }

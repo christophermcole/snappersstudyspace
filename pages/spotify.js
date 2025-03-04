@@ -111,6 +111,7 @@ const Header = styled.div`
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
+    color: #F9ECCC;
 `;
 
 const ProfilePic = styled.img`
