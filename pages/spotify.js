@@ -52,7 +52,6 @@ const SpotifyPage = () => {
             {profile ? (
                 <CenteredContainer>
                     <Header>
-                        <ProfilePic src={profile.images?.[0]?.url} alt="Profile" />
                         <h1>Welcome, {profile.display_name}!</h1>
                     </Header>
                     
@@ -112,13 +111,6 @@ const Header = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
     color: #F9ECCC;
-`;
-
-const ProfilePic = styled.img`
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 3px solid #F9ECCC;
 `;
 
 const SpotifyEmbed = styled.iframe`
