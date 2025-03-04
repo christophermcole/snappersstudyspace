@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import { createGlobalStyle } from "styled-components";
+import withAuth from "@/components/withAuth";
+
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -251,4 +253,4 @@ const CTAButton = styled.button`
   }
 `;
 
-export default Home;
+export default withAuth(Home);

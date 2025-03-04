@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import NavBar from "../components/NavBar";
+import { AuthProvider } from "../context/AuthContext"; // Ensure this path is correct
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -20,11 +21,11 @@ require("dotenv").config({ path: ".env.local" });
 
 function MyApp({ Component, pageProps }) {
     return (
-        <>
+        <AuthProvider> {/* Wrap everything with AuthProvider */}
             <GlobalStyle />
             <NavBar />
             <Component {...pageProps} />
-        </>
+        </AuthProvider>
     );
 }
 

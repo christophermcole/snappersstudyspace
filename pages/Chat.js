@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import withAuth from "@/components/withAuth";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002";
 
@@ -216,4 +217,4 @@ const SnapperImage = styled.img`
   height: auto;
 `;
 
-export default ChatWithSnaps;
+export default withAuth(ChatWithSnaps);

@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import withAuth from "@/components/withAuth";
+
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -148,4 +150,4 @@ const LoginButton = styled.a`
     }
 `;
 
-export default SpotifyPage;
+export default withAuth(SpotifyPage);
