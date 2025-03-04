@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import withAuth from "@/components/withAuth";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3003";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://snappersstudyspace-86l8njtyd.vercel.app/api";
 
 const ChatWithSnaps = () => {
   const [messages, setMessages] = useState([

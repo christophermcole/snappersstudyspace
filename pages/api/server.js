@@ -1,12 +1,10 @@
 require("dotenv").config({ path: ".env.local" });
-const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const chatWithGPT = require("./pages/api/ChatGPT"); 
+const chatWithGPT = require("./ChatGPT");
+const express = require("express");
 
 const app = express();
-const PORT = process.env.PORT || 3003;
-
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -32,7 +30,4 @@ app.post("/Chat", async (req, res) => {
     }
 });
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`✅ Server running on http://localhost:${PORT}`);
-});
+module.exports = app;
