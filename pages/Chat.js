@@ -49,7 +49,7 @@ const ChatWithSnaps = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/server`, {
+      const response = await fetch(`${API_URL}/Chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),
