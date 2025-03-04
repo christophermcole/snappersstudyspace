@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { saveNote, loadNotes, deleteNoteFromFirestore } from "../library/firebase"; // Adjust path if needed
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/router";  // For redirection to login page
 import withAuth from "@/components/withAuth";
 
 

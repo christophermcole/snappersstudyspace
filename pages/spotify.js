@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import withAuth from "@/components/withAuth";
 
 
 const GlobalStyle = createGlobalStyle`
@@ -30,12 +29,22 @@ const SpotifyPage = () => {
     const [profile, setProfile] = useState(null);
 
     useEffect(() => {
+        if (!router.isReady) return;
+    
+        let token = router.query.token || localStorage.getItem("spotify_token");
+    
         if (token) {
+            localStorage.setItem("spotify_token", token);
+            const newUrl = window.location.pathname; // Remove token from URL
+            router.replace(newUrl);
+    
             fetch(`/api/profile?token=${token}`)
                 .then(res => res.json())
-                .then(data => setProfile(data));
+                .then(data => setProfile(data))
+                .catch(error => console.error("Error fetching profile:", error));
         }
-    }, [token]);
+    }, [router.isReady]);
+    
 
     return (
         <Container>
@@ -150,4 +159,4 @@ const LoginButton = styled.a`
     }
 `;
 
-export default withAuth(SpotifyPage);
+export default SpotifyPage;

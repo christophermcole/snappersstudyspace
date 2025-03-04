@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const chatWithGPT = require("./pages/api/ChatGPT"); 
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3003;
 
 app.use(cors());
 app.use(bodyParser.json());

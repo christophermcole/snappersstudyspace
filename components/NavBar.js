@@ -19,7 +19,6 @@ const NavBar = () => {
         <StyledLink href="/NotesPage">Notes</StyledLink>
         <StyledLink href="/spotify">Spotify</StyledLink>
         <StyledLink href="/Chat">Chat</StyledLink>
-        <StyledLink href="/Profile">Profile</StyledLink>
       </NavLinks>
     </Taskbar>
   );

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { useAuth } from "../context/AuthContext"; // Now this will work!
+import { useAuth } from "@/context/AuthContext"; // Adjust based on your auth provider
 
 const withAuth = (WrappedComponent) => {
   return (props) => {
@@ -14,7 +14,7 @@ const withAuth = (WrappedComponent) => {
     }, [user, router]);
 
     if (!user) {
-      return null; // Prevent rendering before redirect
+      return null; // Prevent rendering the component before redirect
     }
 
     return <WrappedComponent {...props} />;
