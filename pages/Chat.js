@@ -4,20 +4,31 @@ import styled from "styled-components";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002";
 
 const ChatWithSnaps = () => {
-  const [messages, setMessages] = useState(() => {
-    const savedMessages = localStorage.getItem("chatHistory");
-    return savedMessages ? JSON.parse(savedMessages) : [
-      { sender: "Snapper", text: "Hi! I'm Snapper, your study assistant. How can I help you today?" }
-    ];
-  });
+  const [messages, setMessages] = useState([
+    { sender: "Snapper", text: "Hi! I'm Snapper, your study assistant. How can I help you today?" }
+  ]);
+
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [userTyping, setUserTyping] = useState(false);
   const [chatStatus, setChatStatus] = useState("waiting"); // "waiting", "thinking", "talking"
   const messagesEndRef = useRef(null);
 
+  // Load messages from localStorage only in the browser
   useEffect(() => {
-    localStorage.setItem("chatHistory", JSON.stringify(messages));
+    if (typeof window !== "undefined") {
+      const savedMessages = localStorage.getItem("chatHistory");
+      if (savedMessages) {
+        setMessages(JSON.parse(savedMessages));
+      }
+    }
+  }, []);
+
+  // Save messages to localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("chatHistory", JSON.stringify(messages));
+    }
   }, [messages]);
 
   useEffect(() => {
@@ -107,6 +118,7 @@ const ChatWithSnaps = () => {
     </PageContainer>
   );
 };
+
 
 const PageContainer = styled.div`
   background: #32643f;

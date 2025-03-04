@@ -18,6 +18,10 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const database = getFirestore(app);
-export const googleProvider = new GoogleAuthProvider().addScope('email');
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.addScope("email");
+googleProvider.addScope("https://www.googleapis.com/auth/calendar.readonly");
+
+
 
 export default app;
